@@ -8,6 +8,10 @@ const connection = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PWD,
   database: process.env.DB_NAME,
+  ssl: process.env.DB_SSL === 'true',
+  extra: {
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : null,
+  },
   synchronize: false,
   logging: [process.env.DB_LOGGING === 'true' ? 'query' : null],
   entities: [

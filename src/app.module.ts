@@ -12,6 +12,7 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from 'apollo-server-core';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -41,6 +42,22 @@ import {
         // Date: DateResolver,
         // Email: EmailAddressResolver,
       },
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PWD,
+      database: process.env.DB_NAME,
+      ssl: process.env.DB_SSL === 'true',
+      extra: {
+        ssl:
+          process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : null,
+      },
+      logging: [process.env.DB_LOGGING === 'true' ? 'query' : null],
+      autoLoadEntities: true,
+      synchronize: process.env.DB_SYNC_STATUS == 'true',
     }),
     HelloWordModule,
   ],
