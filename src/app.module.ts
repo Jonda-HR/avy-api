@@ -8,14 +8,21 @@ import {
   DateTimeResolver,
   EmailAddressResolver,
 } from 'graphql-scalars';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
+} from 'apollo-server-core';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      playground: process.env.ALLOW_GRAPHQL_PLAYGROUND === 'true',
+      plugins: [
+        process.env.NODE_ENV === 'prod'
+          ? ApolloServerPluginLandingPageProductionDefault()
+          : ApolloServerPluginLandingPageLocalDefault(),
+      ],
       debug: process.env.APOLLOGQL_ALLOW_DEBUG === 'true',
       //To allow for PubSub
       installSubscriptionHandlers: true,
