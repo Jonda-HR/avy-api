@@ -3,19 +3,21 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { HelloWordModule } from './modules/hello-word/hello-word.module';
-import {
-  DateResolver,
-  DateTimeResolver,
-  EmailAddressResolver,
-} from 'graphql-scalars';
+// import {
+//   DateResolver,
+//   DateTimeResolver,
+//   EmailAddressResolver,
+// } from 'graphql-scalars';
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from 'apollo-server-core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: process.env.ALLOW_GRAPHQL_PLAYGROUND === 'true',
@@ -43,22 +45,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         // Email: EmailAddressResolver,
       },
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: process.env.DB_HOST,
-    //   port: +process.env.DB_PORT,
-    //   username: String(process.env.DB_USERNAME),
-    //   password: String(process.env.DB_PWD),
-    //   database: process.env.DB_NAME,
-    //   ssl: process.env.DB_SSL === 'true',
-    //   extra: {
-    //     ssl:
-    //       process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : null,
-    //   },
-    //   logging: [process.env.DB_LOGGING === 'true' ? 'query' : null],
-    //   autoLoadEntities: true,
-    //   synchronize: process.env.DB_SYNC_STATUS == 'true',
-    // }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: String(process.env.DB_USERNAME),
+      password: String(process.env.DB_PWD),
+      database: process.env.DB_NAME,
+      ssl: process.env.DB_SSL === 'true',
+      extra: {
+        ssl:
+          process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : null,
+      },
+      logging: [process.env.DB_LOGGING === 'true' ? 'query' : null],
+      autoLoadEntities: true,
+      synchronize: process.env.DB_SYNC_STATUS == 'true',
+    }),
     HelloWordModule,
   ],
   controllers: [],
