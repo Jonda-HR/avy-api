@@ -5,8 +5,8 @@ const connection = new DataSource({
   type: 'postgres', // Can be any supported database
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT),
-  username: String(process.env.DB_USERNAME),
-  password: String(process.env.DB_PWD),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PWD,
   database: process.env.DB_NAME,
   ssl: process.env.DB_SSL === 'true',
   extra: {
