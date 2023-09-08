@@ -14,7 +14,7 @@ import {
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { MemberModule } from './modules/member/member.module';
-import { HelloWordModule } from './modules/hello-word/hello-word.module';
+import { SectorModule } from './modules/sector/sector.module';
 
 @Module({
   imports: [
@@ -62,8 +62,8 @@ import { HelloWordModule } from './modules/hello-word/hello-word.module';
       autoLoadEntities: true,
       synchronize: process.env.DB_SYNC_STATUS == 'true',
     }),
-    HelloWordModule,
     MemberModule,
+    SectorModule,
   ],
   controllers: [],
   providers: [],

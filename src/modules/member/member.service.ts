@@ -12,7 +12,9 @@ export class MemberService {
   ) {}
 
   public async members(): Promise<Member[]> {
-    return await this.memberRepository.find();
+    return await this.memberRepository.find({
+      order: { firstName: 'ASC' },
+    });
   }
 
   public async createMember(input: CreateMemberInput): Promise<Member> {

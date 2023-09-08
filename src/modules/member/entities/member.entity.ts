@@ -4,11 +4,13 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { RoleGroup } from './roleGroup.entity';
 import { RoleMinistry } from './roleMinistry.entity';
+import { Sector } from '../../sector/entities/sector.entity';
 
 @Entity()
 export class Member {
@@ -48,6 +50,9 @@ export class Member {
     lazy: true,
   })
   roleMinistry: RoleMinistry;
+
+  @OneToOne(() => Sector, (sector) => sector.supervisor, { lazy: true })
+  sector: Sector;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;

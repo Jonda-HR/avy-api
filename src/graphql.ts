@@ -30,10 +30,14 @@ export interface UpdateMemberInput {
     roleMinistryId?: Nullable<number>;
 }
 
-export interface IQuery {
-    helloWord(): Nullable<string> | Promise<Nullable<string>>;
-    members(): Nullable<Member>[] | Promise<Nullable<Member>[]>;
-    memberById(id: number): Nullable<Member> | Promise<Nullable<Member>>;
+export interface CreateSectorInput {
+    sectorName: string;
+    supervisorId?: Nullable<number>;
+}
+
+export interface UpdateSectorInput {
+    sectorName?: Nullable<string>;
+    supervisorId?: Nullable<number>;
 }
 
 export interface Member {
@@ -65,11 +69,32 @@ export interface RoleMinistry {
     members?: Nullable<Nullable<Member>[]>;
 }
 
+export interface IQuery {
+    members(): Nullable<Member>[] | Promise<Nullable<Member>[]>;
+    memberById(id: number): Nullable<Member> | Promise<Nullable<Member>>;
+    sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
+    sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
+}
+
 export interface IMutation {
     createMember(input: CreateMemberInput): Member | Promise<Member>;
     updateMember(id: number, input: UpdateMemberInput): Member | Promise<Member>;
     removeMember(id: number): Member | Promise<Member>;
     restoreMember(id: number): Member | Promise<Member>;
+    createSector(input: CreateSectorInput): Sector | Promise<Sector>;
+    updateSector(id: number, input: UpdateSectorInput): Sector | Promise<Sector>;
+    removeSector(id: number): Sector | Promise<Sector>;
+    restoreSector(id: number): Sector | Promise<Sector>;
+}
+
+export interface Sector {
+    id: number;
+    sectorName: string;
+    supervisorId?: Nullable<number>;
+    supervisor?: Nullable<Member>;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+    deletedAt?: Nullable<DateTime>;
 }
 
 export type DateTime = any;
