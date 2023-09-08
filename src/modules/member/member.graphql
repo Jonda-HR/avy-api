@@ -1,0 +1,65 @@
+scalar DateTime
+scalar Date
+
+type Member {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  identityNumber: String
+  birthday: Date
+  phone: String
+  address: String
+  roleGroupId: Int!
+  roleGroup: RoleGroup
+  roleMinistryId: Int!
+  roleMinistry: RoleMinistry
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
+type RoleGroup {
+  id: Int!
+  roleGroupName: String!
+  members: [Member]
+}
+
+type RoleMinistry {
+  id: Int!
+  roleMinistryName: String!
+  members: [Member]
+}
+
+input CreateMemberInput {
+  firstName: String!
+  lastName: String!
+  identityNumber: String
+  birthday: Date
+  phone: String
+  address: String
+  roleGroupId: Int
+  roleMinistryId: Int
+}
+
+input UpdateMemberInput {
+  firstName: String
+  lastName: String
+  identityNumber: String
+  birthday: Date
+  phone: String
+  address: String
+  roleGroupId: Int
+  roleMinistryId: Int
+}
+
+type Query {
+  members: [Member]!
+  memberById(id: Int!): Member
+}
+
+type Mutation {
+  createMember(input: CreateMemberInput!): Member!
+  updateMember(id: Int!, input: UpdateMemberInput!): Member!
+  removeMember(id: Int!): Member!
+  restoreMember(id: Int!): Member!
+}

@@ -2,18 +2,19 @@ import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
-import { HelloWordModule } from './modules/hello-word/hello-word.module';
-// import {
-//   DateResolver,
-//   DateTimeResolver,
-//   EmailAddressResolver,
-// } from 'graphql-scalars';
+import {
+  DateResolver,
+  DateTimeResolver,
+  // EmailAddressResolver,
+} from 'graphql-scalars';
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from 'apollo-server-core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { MemberModule } from './modules/member/member.module';
+import { HelloWordModule } from './modules/hello-word/hello-word.module';
 
 @Module({
   imports: [
@@ -40,8 +41,8 @@ import { ConfigModule } from '@nestjs/config';
         path: join(process.cwd(), 'src/graphql.ts'),
       },
       resolvers: {
-        // DateTime: DateTimeResolver,
-        // Date: DateResolver,
+        DateTime: DateTimeResolver,
+        Date: DateResolver,
         // Email: EmailAddressResolver,
       },
     }),
@@ -62,6 +63,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: process.env.DB_SYNC_STATUS == 'true',
     }),
     HelloWordModule,
+    MemberModule,
   ],
   controllers: [],
   providers: [],
