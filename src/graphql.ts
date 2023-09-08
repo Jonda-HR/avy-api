@@ -8,6 +8,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export interface SingUpInput {
+    userName: string;
+    password: string;
+}
+
 export interface CreateMemberInput {
     firstName: string;
     lastName: string;
@@ -38,6 +43,39 @@ export interface CreateSectorInput {
 export interface UpdateSectorInput {
     sectorName?: Nullable<string>;
     supervisorId?: Nullable<number>;
+}
+
+export interface CreateUserInput {
+    userName: string;
+    password: string;
+    roleUserId: number;
+}
+
+export interface UpdateUserInput {
+    userName?: Nullable<string>;
+    password?: Nullable<string>;
+    roleUserId?: Nullable<number>;
+}
+
+export interface AuthResponse {
+    token: string;
+    user?: Nullable<User>;
+}
+
+export interface IMutation {
+    singUp(input?: Nullable<SingUpInput>): AuthResponse | Promise<AuthResponse>;
+    createMember(input: CreateMemberInput): Member | Promise<Member>;
+    updateMember(id: number, input: UpdateMemberInput): Member | Promise<Member>;
+    removeMember(id: number): Member | Promise<Member>;
+    restoreMember(id: number): Member | Promise<Member>;
+    createSector(input: CreateSectorInput): Sector | Promise<Sector>;
+    updateSector(id: number, input: UpdateSectorInput): Sector | Promise<Sector>;
+    removeSector(id: number): Sector | Promise<Sector>;
+    restoreSector(id: number): Sector | Promise<Sector>;
+    createUser(input: CreateUserInput): User | Promise<User>;
+    updateUser(id: number, input: UpdateUserInput): User | Promise<User>;
+    removeUser(id: number): User | Promise<User>;
+    restoreUser(id: number): User | Promise<User>;
 }
 
 export interface Member {
@@ -74,17 +112,8 @@ export interface IQuery {
     memberById(id: number): Nullable<Member> | Promise<Nullable<Member>>;
     sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
     sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
-}
-
-export interface IMutation {
-    createMember(input: CreateMemberInput): Member | Promise<Member>;
-    updateMember(id: number, input: UpdateMemberInput): Member | Promise<Member>;
-    removeMember(id: number): Member | Promise<Member>;
-    restoreMember(id: number): Member | Promise<Member>;
-    createSector(input: CreateSectorInput): Sector | Promise<Sector>;
-    updateSector(id: number, input: UpdateSectorInput): Sector | Promise<Sector>;
-    removeSector(id: number): Sector | Promise<Sector>;
-    restoreSector(id: number): Sector | Promise<Sector>;
+    users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    userById(id: number): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface Sector {
@@ -95,6 +124,22 @@ export interface Sector {
     createdAt: DateTime;
     updatedAt: DateTime;
     deletedAt?: Nullable<DateTime>;
+}
+
+export interface User {
+    id: number;
+    userName?: Nullable<string>;
+    roleUserId: number;
+    roleUser?: Nullable<RoleUser>;
+    createdAt?: Nullable<Date>;
+    updatedAt?: Nullable<Date>;
+    deletedAt?: Nullable<Date>;
+}
+
+export interface RoleUser {
+    id: number;
+    roleUserName: string;
+    users?: Nullable<Nullable<User>[]>;
 }
 
 export type DateTime = any;

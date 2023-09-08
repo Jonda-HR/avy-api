@@ -1,0 +1,41 @@
+scalar Date
+
+type User {
+  id: Int!
+  userName: String
+  roleUserId: Int!
+  roleUser: RoleUser
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date
+}
+
+type RoleUser {
+  id: Int!
+  roleUserName: String!
+  users: [User]
+}
+
+input CreateUserInput {
+  userName: String!
+  password: String!
+  roleUserId: Int!
+}
+
+input UpdateUserInput {
+  userName: String
+  password: String
+  roleUserId: Int
+}
+
+type Query {
+  users: [User]!
+  userById(id: Int!): User
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  updateUser(id: Int!, input: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  restoreUser(id: Int!): User!
+}

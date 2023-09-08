@@ -6,7 +6,7 @@ export class RoleGroup {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   roleGroupName: string;
 
   @OneToMany(() => Member, (member) => member.roleGroup, { lazy: true })

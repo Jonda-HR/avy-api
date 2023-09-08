@@ -1,0 +1,17 @@
+input SingUpInput {
+  userName: String!
+  password: String!
+}
+
+type AuthResponse {
+  token: String!
+  user: User
+}
+
+# type Query {
+#   revalidate:
+# }
+
+type Mutation {
+  singUp(input: SingUpInput): AuthResponse!
+}

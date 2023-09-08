@@ -1,29 +1,30 @@
-import { Member } from '../../member/entities/member.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { RoleUser } from './roleUser.entity';
 
 @Entity()
-export class Sector {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false, unique: true })
-  sectorName: string;
+  userName: string;
 
   @Column({ nullable: false })
-  supervisorId: number;
+  password: string;
 
-  @OneToOne(() => Member, (member) => member.sector, { lazy: true })
-  @JoinColumn()
-  supervisor: Member;
+  @Column({ nullable: false, default: 1 })
+  roleUserId: number;
+
+  @ManyToOne(() => RoleUser, (roleUser) => roleUser.users, { lazy: true })
+  roleUser: RoleUser;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
