@@ -80,9 +80,9 @@ export interface IMutation {
     removeSector(id: number): Sector | Promise<Sector>;
     restoreSector(id: number): Sector | Promise<Sector>;
     createUser(input: CreateUserInput): User | Promise<User>;
-    updateUser(id: number, input: UpdateUserInput): User | Promise<User>;
-    removeUser(id: number): User | Promise<User>;
-    restoreUser(id: number): User | Promise<User>;
+    updateUser(id: string, input: UpdateUserInput): User | Promise<User>;
+    removeUser(id: string): User | Promise<User>;
+    restoreUser(id: string): User | Promise<User>;
 }
 
 export interface Member {
@@ -120,7 +120,7 @@ export interface IQuery {
     sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
     sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
     users(): Nullable<User>[] | Promise<Nullable<User>[]>;
-    userById(id: number): Nullable<User> | Promise<Nullable<User>>;
+    userById(id: string): Nullable<User> | Promise<Nullable<User>>;
     userByName(userName: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
@@ -135,7 +135,7 @@ export interface Sector {
 }
 
 export interface User {
-    id: number;
+    id: string;
     userName?: Nullable<string>;
     roleUserId: number;
     roleUser?: Nullable<RoleUser>;

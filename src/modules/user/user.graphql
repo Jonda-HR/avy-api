@@ -1,7 +1,7 @@
 scalar Date
 
 type User {
-  id: Int!
+  id: String!
   userName: String
   roleUserId: Int!
   roleUser: RoleUser
@@ -30,13 +30,13 @@ input UpdateUserInput {
 
 type Query {
   users: [User]!
-  userById(id: Int!): User
+  userById(id: String!): User
   userByName(userName: String!): User
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): User!
-  updateUser(id: Int!, input: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
-  restoreUser(id: Int!): User!
+  updateUser(id: String!, input: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  restoreUser(id: String!): User!
 }

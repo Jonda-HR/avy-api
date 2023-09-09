@@ -44,7 +44,7 @@ export class UserService {
     }
   }
 
-  public async userById(id: number): Promise<User> {
+  public async userById(id: string): Promise<User> {
     try {
       return await this.userRepository.findOneBy({ id });
     } catch (error) {
@@ -68,7 +68,7 @@ export class UserService {
     }
   }
 
-  public async updateUser(id: number, input: UpdateUserInput): Promise<User> {
+  public async updateUser(id: string, input: UpdateUserInput): Promise<User> {
     try {
       await this.userRepository.update(id, input);
       return await this.userById(id);
@@ -81,7 +81,7 @@ export class UserService {
     }
   }
 
-  public async removeUser(id: number): Promise<User> {
+  public async removeUser(id: string): Promise<User> {
     try {
       await this.userRepository.softDelete(id);
       return await this.userRepository.findOne({
@@ -97,7 +97,7 @@ export class UserService {
     }
   }
 
-  public async restoreUser(id: number): Promise<User> {
+  public async restoreUser(id: string): Promise<User> {
     try {
       await this.userRepository.restore(id);
       return await this.userById(id);

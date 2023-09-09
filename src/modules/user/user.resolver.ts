@@ -13,7 +13,7 @@ export class UserResolver {
   }
 
   @Query('userById')
-  public async userById(@Args('id') id: number): Promise<User> {
+  public async userById(@Args('id') id: string): Promise<User> {
     return await this.userService.userById(id);
   }
 
@@ -31,19 +31,19 @@ export class UserResolver {
 
   @Mutation('updateUser')
   public async updateUser(
-    @Args('id') id: number,
+    @Args('id') id: string,
     @Args('input') input: UpdateUserInput,
   ): Promise<User> {
     return await this.userService.updateUser(id, input);
   }
 
   @Mutation('removeUser')
-  public async removeUser(@Args('id') id: number): Promise<User> {
+  public async removeUser(@Args('id') id: string): Promise<User> {
     return await this.userService.removeUser(id);
   }
 
   @Mutation('restoreUser')
-  public async restoreUser(@Args('id') id: number): Promise<User> {
+  public async restoreUser(@Args('id') id: string): Promise<User> {
     return await this.userService.restoreUser(id);
   }
 }

@@ -2,11 +2,7 @@ import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
-import {
-  DateResolver,
-  DateTimeResolver,
-  // EmailAddressResolver,
-} from 'graphql-scalars';
+import { DateResolver, DateTimeResolver } from 'graphql-scalars';
 import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
@@ -15,10 +11,12 @@ import { WinstonModule, utilities } from 'nest-winston';
 import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+
 import { MemberModule } from './modules/member/member.module';
 import { SectorModule } from './modules/sector/sector.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { HandleErrorModule } from './utilities/handleError/handleError.module';
 
 @Module({
   imports: [
@@ -47,7 +45,6 @@ import { AuthModule } from './modules/auth/auth.module';
       resolvers: {
         DateTime: DateTimeResolver,
         Date: DateResolver,
-        // Email: EmailAddressResolver,
       },
     }),
     WinstonModule.forRootAsync({
@@ -88,6 +85,7 @@ import { AuthModule } from './modules/auth/auth.module';
     SectorModule,
     UserModule,
     AuthModule,
+    HandleErrorModule,
   ],
   controllers: [],
   providers: [],
