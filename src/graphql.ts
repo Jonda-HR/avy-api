@@ -8,10 +8,16 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum validRoles {
+    user = "user",
+    superUser = "superUser",
+    admin = "admin"
+}
+
 export interface SignUpInput {
     userName: string;
     password: string;
-    roleUserId: number;
+    roleUser: validRoles;
 }
 
 export interface SignInInput {
@@ -54,18 +60,29 @@ export interface UpdateSectorInput {
 export interface CreateUserInput {
     userName: string;
     password: string;
-    roleUserId: number;
+    roleUser: validRoles;
 }
 
 export interface UpdateUserInput {
     userName?: Nullable<string>;
     password?: Nullable<string>;
-    roleUserId?: Nullable<number>;
+    roleUser?: Nullable<validRoles>;
 }
 
 export interface AuthResponse {
     token: string;
     user?: Nullable<User>;
+}
+
+export interface IQuery {
+    revalidate(): AuthResponse | Promise<AuthResponse>;
+    members(): Nullable<Member>[] | Promise<Nullable<Member>[]>;
+    memberById(id: number): Nullable<Member> | Promise<Nullable<Member>>;
+    sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
+    sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
+    users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    userById(id: string): Nullable<User> | Promise<Nullable<User>>;
+    userByName(userName: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface IMutation {
@@ -114,16 +131,6 @@ export interface RoleMinistry {
     members?: Nullable<Nullable<Member>[]>;
 }
 
-export interface IQuery {
-    members(): Nullable<Member>[] | Promise<Nullable<Member>[]>;
-    memberById(id: number): Nullable<Member> | Promise<Nullable<Member>>;
-    sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
-    sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
-    users(): Nullable<User>[] | Promise<Nullable<User>[]>;
-    userById(id: string): Nullable<User> | Promise<Nullable<User>>;
-    userByName(userName: string): Nullable<User> | Promise<Nullable<User>>;
-}
-
 export interface Sector {
     id: number;
     sectorName: string;
@@ -137,8 +144,7 @@ export interface Sector {
 export interface User {
     id: string;
     userName?: Nullable<string>;
-    roleUserId: number;
-    roleUser?: Nullable<RoleUser>;
+    roleUser: string;
     createdAt?: Nullable<Date>;
     updatedAt?: Nullable<Date>;
     deletedAt?: Nullable<Date>;

@@ -1,7 +1,7 @@
 input SignUpInput {
   userName: String!
   password: String!
-  roleUserId: Int!
+  roleUser: validRoles!
 }
 
 input SignInInput {
@@ -14,9 +14,15 @@ type AuthResponse {
   user: User
 }
 
-# type Query {
-#   revalidate:
-# }
+enum validRoles {
+  user
+  superUser
+  admin
+}
+
+type Query {
+  revalidate: AuthResponse!
+}
 
 type Mutation {
   signUp(input: SignUpInput): AuthResponse!

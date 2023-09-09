@@ -46,7 +46,7 @@ export class UserService {
 
   public async userById(id: string): Promise<User> {
     try {
-      return await this.userRepository.findOneBy({ id });
+      return await this.userRepository.findOneByOrFail({ id });
     } catch (error) {
       this.handleErrorService.handleError(
         `An error occurred while getting the user with ID: ${id}`,

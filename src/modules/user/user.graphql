@@ -3,8 +3,7 @@ scalar Date
 type User {
   id: String!
   userName: String
-  roleUserId: Int!
-  roleUser: RoleUser
+  roleUser: String!
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -19,13 +18,13 @@ type RoleUser {
 input CreateUserInput {
   userName: String!
   password: String!
-  roleUserId: Int!
+  roleUser: validRoles!
 }
 
 input UpdateUserInput {
   userName: String
   password: String
-  roleUserId: Int
+  roleUser: validRoles
 }
 
 type Query {

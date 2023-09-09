@@ -3,11 +3,10 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { RoleUser } from './roleUser.entity';
+// import { RoleUser } from './roleUser.entity';
 
 @Entity()
 export class User {
@@ -20,11 +19,8 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @Column({ nullable: false, default: 1 })
-  roleUserId: number;
-
-  @ManyToOne(() => RoleUser, (roleUser) => roleUser.users, { lazy: true })
-  roleUser: RoleUser;
+  @Column({ nullable: false, default: 'user' })
+  roleUser: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
