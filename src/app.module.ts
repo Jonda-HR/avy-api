@@ -11,6 +11,8 @@ import {
   ApolloServerPluginLandingPageLocalDefault,
   ApolloServerPluginLandingPageProductionDefault,
 } from 'apollo-server-core';
+import { WinstonModule, utilities } from 'nest-winston';
+import * as winston from 'winston';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { MemberModule } from './modules/member/member.module';
@@ -47,6 +49,24 @@ import { AuthModule } from './modules/auth/auth.module';
         Date: DateResolver,
         // Email: EmailAddressResolver,
       },
+    }),
+    WinstonModule.forRootAsync({
+      useFactory: () => ({
+        level: 'info',
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.colorize(),
+          winston.format.json(),
+          winston.format.ms(),
+          utilities.format.nestLike('AVY', {
+            colors: true,
+            prettyPrint: true,
+          }),
+        ),
+        transports: [new winston.transports.Console()],
+        exceptionHandlers: [new winston.transports.Console()],
+      }),
+      inject: [],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
