@@ -1,4 +1,10 @@
-input SingUpInput {
+input SignUpInput {
+  userName: String!
+  password: String!
+  roleUserId: Int!
+}
+
+input SignInInput {
   userName: String!
   password: String!
 }
@@ -13,5 +19,6 @@ type AuthResponse {
 # }
 
 type Mutation {
-  singUp(input: SingUpInput): AuthResponse!
+  signUp(input: SignUpInput): AuthResponse!
+  signIn(input: SignInInput): AuthResponse!
 }

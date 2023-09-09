@@ -31,6 +31,7 @@ input UpdateUserInput {
 type Query {
   users: [User]!
   userById(id: Int!): User
+  userByName(userName: String!): User
 }
 
 type Mutation {

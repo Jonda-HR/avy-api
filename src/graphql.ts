@@ -8,7 +8,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface SingUpInput {
+export interface SignUpInput {
+    userName: string;
+    password: string;
+    roleUserId: number;
+}
+
+export interface SignInInput {
     userName: string;
     password: string;
 }
@@ -63,7 +69,8 @@ export interface AuthResponse {
 }
 
 export interface IMutation {
-    singUp(input?: Nullable<SingUpInput>): AuthResponse | Promise<AuthResponse>;
+    signUp(input?: Nullable<SignUpInput>): AuthResponse | Promise<AuthResponse>;
+    signIn(input?: Nullable<SignInInput>): AuthResponse | Promise<AuthResponse>;
     createMember(input: CreateMemberInput): Member | Promise<Member>;
     updateMember(id: number, input: UpdateMemberInput): Member | Promise<Member>;
     removeMember(id: number): Member | Promise<Member>;
@@ -114,6 +121,7 @@ export interface IQuery {
     sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
     users(): Nullable<User>[] | Promise<Nullable<User>[]>;
     userById(id: number): Nullable<User> | Promise<Nullable<User>>;
+    userByName(userName: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface Sector {
