@@ -6,6 +6,7 @@ type Sector {
   sectorName: String!
   supervisorId: Int
   supervisor: Member
+  growthGroups: [GrowthGroup]
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime

@@ -1,9 +1,12 @@
+scalar Date
+
 type GrowthGroup {
   id: Int!
   growthGroupName: String!
   headquarters: String
   sectorId: Int!
   sector: Sector
+  tickets: [Ticket]
   createdAt: Date!
   updatedAt: Date!
   deletedAt: Date

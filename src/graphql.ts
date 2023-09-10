@@ -25,6 +25,16 @@ export interface SignInInput {
     password: string;
 }
 
+export interface CreateDinnerInput {
+    dinnerName: string;
+    price: number;
+}
+
+export interface UpdateDinnerInput {
+    dinnerName?: Nullable<string>;
+    price?: Nullable<number>;
+}
+
 export interface CreateGrowthGroupInput {
     growthGroupName: string;
     headquarters?: Nullable<string>;
@@ -77,6 +87,16 @@ export interface UpdateSectorInput {
     supervisorId?: Nullable<number>;
 }
 
+export interface CreateTicketInput {
+    dinnerId: number;
+    growthGroupId: number;
+}
+
+export interface UpdateTicketInput {
+    dinnerId: number;
+    growthGroupId: number;
+}
+
 export interface CreateUserInput {
     userName: string;
     password: string;
@@ -96,6 +116,8 @@ export interface AuthResponse {
 
 export interface IQuery {
     revalidate(): AuthResponse | Promise<AuthResponse>;
+    dinners(): Nullable<Dinner>[] | Promise<Nullable<Dinner>[]>;
+    dinnerById(id: number): Nullable<Dinner> | Promise<Nullable<Dinner>>;
     growthGroups(): Nullable<GrowthGroup>[] | Promise<Nullable<GrowthGroup>[]>;
     growthGroupById(id: number): Nullable<GrowthGroup> | Promise<Nullable<GrowthGroup>>;
     members(): Nullable<Member>[] | Promise<Nullable<Member>[]>;
@@ -104,6 +126,8 @@ export interface IQuery {
     ministryById(id: number): Nullable<Ministry> | Promise<Nullable<Ministry>>;
     sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
     sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
+    tickets(): Nullable<Ticket>[] | Promise<Nullable<Ticket>[]>;
+    ticketById(id: number): Nullable<Ticket> | Promise<Nullable<Ticket>>;
     users(): Nullable<User>[] | Promise<Nullable<User>[]>;
     userById(id: string): Nullable<User> | Promise<Nullable<User>>;
     userByName(userName: string): Nullable<User> | Promise<Nullable<User>>;
@@ -112,6 +136,10 @@ export interface IQuery {
 export interface IMutation {
     signUp(input?: Nullable<SignUpInput>): AuthResponse | Promise<AuthResponse>;
     signIn(input?: Nullable<SignInInput>): AuthResponse | Promise<AuthResponse>;
+    createDinner(input: CreateDinnerInput): Dinner | Promise<Dinner>;
+    updateDinner(id: number, input: UpdateDinnerInput): Dinner | Promise<Dinner>;
+    removeDinner(id: number): Dinner | Promise<Dinner>;
+    restoreDinner(id: number): Dinner | Promise<Dinner>;
     createGrowthGroup(input: CreateGrowthGroupInput): GrowthGroup | Promise<GrowthGroup>;
     updateGrowthGroup(id: number, input: UpdateGrowthGroupInput): GrowthGroup | Promise<GrowthGroup>;
     removeGrowthGroup(id: number): GrowthGroup | Promise<GrowthGroup>;
@@ -128,10 +156,25 @@ export interface IMutation {
     updateSector(id: number, input: UpdateSectorInput): Sector | Promise<Sector>;
     removeSector(id: number): Sector | Promise<Sector>;
     restoreSector(id: number): Sector | Promise<Sector>;
+    createTicket(input: CreateTicketInput): Ticket | Promise<Ticket>;
+    updateTicket(id: number, input: UpdateTicketInput): Ticket | Promise<Ticket>;
+    removeTicket(id: number): Ticket | Promise<Ticket>;
+    restoreTicket(id: number): Ticket | Promise<Ticket>;
     createUser(input: CreateUserInput): User | Promise<User>;
     updateUser(id: string, input: UpdateUserInput): User | Promise<User>;
     removeUser(id: string): User | Promise<User>;
     restoreUser(id: string): User | Promise<User>;
+}
+
+export interface Dinner {
+    id: number;
+    dinnerName: string;
+    price: number;
+    raisedMoney: number;
+    tickets?: Nullable<Nullable<Ticket>[]>;
+    createdAt?: Nullable<Date>;
+    updatedAt?: Nullable<Date>;
+    deletedAt?: Nullable<Date>;
 }
 
 export interface GrowthGroup {
@@ -140,6 +183,7 @@ export interface GrowthGroup {
     headquarters?: Nullable<string>;
     sectorId: number;
     sector?: Nullable<Sector>;
+    tickets?: Nullable<Nullable<Ticket>[]>;
     createdAt: Date;
     updatedAt: Date;
     deletedAt?: Nullable<Date>;
@@ -188,9 +232,23 @@ export interface Sector {
     sectorName: string;
     supervisorId?: Nullable<number>;
     supervisor?: Nullable<Member>;
+    growthGroups?: Nullable<Nullable<GrowthGroup>[]>;
     createdAt: DateTime;
     updatedAt: DateTime;
     deletedAt?: Nullable<DateTime>;
+}
+
+export interface Ticket {
+    id: number;
+    code?: Nullable<string>;
+    isPaid?: Nullable<boolean>;
+    dinnerId: number;
+    dinner?: Nullable<Dinner>;
+    growthGroupId: number;
+    growthGroup?: Nullable<GrowthGroup>;
+    createdAt?: Nullable<Date>;
+    updatedAt?: Nullable<Date>;
+    deletedAt?: Nullable<Date>;
 }
 
 export interface User {

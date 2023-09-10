@@ -1,0 +1,36 @@
+scalar Date
+
+type Ticket {
+  id: Int!
+  code: String
+  isPaid: Boolean
+  dinnerId: Int!
+  dinner: Dinner
+  growthGroupId: Int!
+  growthGroup: GrowthGroup
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date
+}
+
+input CreateTicketInput {
+  dinnerId: Int!
+  growthGroupId: Int!
+}
+
+input UpdateTicketInput {
+  dinnerId: Int!
+  growthGroupId: Int!
+}
+
+type Query {
+  tickets: [Ticket]!
+  ticketById(id: Int!): Ticket
+}
+
+type Mutation {
+  createTicket(input: CreateTicketInput!): Ticket!
+  updateTicket(id: Int!, input: UpdateTicketInput!): Ticket!
+  removeTicket(id: Int!): Ticket!
+  restoreTicket(id: Int!): Ticket!
+}

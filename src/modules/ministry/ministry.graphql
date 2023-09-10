@@ -1,3 +1,5 @@
+scalar Date
+
 type Ministry {
   id: Int!
   ministryName: String!

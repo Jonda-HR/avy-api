@@ -1,34 +1,31 @@
 import { Ticket } from '../../ticket/entities/ticket.entity';
-import { Sector } from '../../sector/entities/sector.entity';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
   DeleteDateColumn,
-  ManyToOne,
+  Entity,
   OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class GrowthGroup {
+export class Dinner {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false, unique: true })
-  growthGroupName: string;
+  dinnerName: string;
 
-  @Column({ nullable: true })
-  headquarters: string;
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  price: number;
 
-  @Column({ nullable: false })
-  sectorId: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  raisedMoney: number;
 
-  @ManyToOne(() => Sector, (sector) => sector.growthGroups, { lazy: true })
-  sector: Sector;
-
-  @OneToMany(() => Ticket, (ticket) => ticket.growthGroup, { lazy: true })
+  @OneToMany(() => Ticket, (ticket) => ticket.dinner, {
+    lazy: true,
+  })
   tikets: Ticket[];
 
   @CreateDateColumn({ type: 'timestamptz' })

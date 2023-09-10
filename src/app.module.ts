@@ -19,6 +19,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { HandleErrorModule } from './utilities/handleError/handleError.module';
 import { GrowthGroupModule } from './modules/growth-group/growth-group.module';
 import { MinistryModule } from './modules/ministry/ministry.module';
+import { DinnerModule } from './modules/dinner/dinner.module';
+import { TicketModule } from './modules/ticket/ticket.module';
 
 @Module({
   imports: [
@@ -90,6 +92,8 @@ import { MinistryModule } from './modules/ministry/ministry.module';
     HandleErrorModule,
     GrowthGroupModule,
     MinistryModule,
+    DinnerModule,
+    TicketModule,
   ],
   controllers: [],
   providers: [],

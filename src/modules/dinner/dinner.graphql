@@ -1,0 +1,34 @@
+scalar Date
+
+type Dinner {
+  id: Int!
+  dinnerName: String!
+  price: Float!
+  raisedMoney: Float!
+  tickets: [Ticket]
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date
+}
+
+input CreateDinnerInput {
+  dinnerName: String!
+  price: Float!
+}
+
+input UpdateDinnerInput {
+  dinnerName: String
+  price: Float
+}
+
+type Query {
+  dinners: [Dinner]!
+  dinnerById(id: Int!): Dinner
+}
+
+type Mutation {
+  createDinner(input: CreateDinnerInput!): Dinner!
+  updateDinner(id: Int!, input: UpdateDinnerInput!): Dinner!
+  removeDinner(id: Int!): Dinner!
+  restoreDinner(id: Int!): Dinner!
+}
