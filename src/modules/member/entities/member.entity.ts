@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -11,6 +13,7 @@ import {
 import { RoleGroup } from './roleGroup.entity';
 import { RoleMinistry } from './roleMinistry.entity';
 import { Sector } from '../../sector/entities/sector.entity';
+import { Ministry } from '../../ministry/entities/ministry.entity';
 
 @Entity()
 export class Member {
@@ -53,6 +56,10 @@ export class Member {
 
   @OneToOne(() => Sector, (sector) => sector.supervisor, { lazy: true })
   sector: Sector;
+
+  @ManyToMany(() => Ministry, (ministry) => ministry.members, { lazy: true })
+  @JoinTable({ name: 'member_ministry' })
+  ministries: Ministry[];
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;

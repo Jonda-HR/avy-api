@@ -1,0 +1,28 @@
+type Ministry {
+  id: Int!
+  ministryName: String!
+  members: [Member]
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date
+}
+
+input CreateMinistryInput {
+  ministryName: String!
+}
+
+input UpdateMinistryInput {
+  ministryName: String
+}
+
+type Query {
+  ministries: [Ministry]!
+  ministryById(id: Int!): Ministry
+}
+
+type Mutation {
+  createMinistry(input: CreateMinistryInput!): Ministry!
+  updateMinistry(id: Int!, input: UpdateMinistryInput!): Ministry!
+  removeMinistry(id: Int!): Ministry!
+  restoreMinistry(id: Int!): Ministry!
+}

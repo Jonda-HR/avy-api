@@ -18,6 +18,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HandleErrorModule } from './utilities/handleError/handleError.module';
 import { GrowthGroupModule } from './modules/growth-group/growth-group.module';
+import { MinistryModule } from './modules/ministry/ministry.module';
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { GrowthGroupModule } from './modules/growth-group/growth-group.module';
     AuthModule,
     HandleErrorModule,
     GrowthGroupModule,
+    MinistryModule,
   ],
   controllers: [],
   providers: [],

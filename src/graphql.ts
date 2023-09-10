@@ -59,6 +59,14 @@ export interface UpdateMemberInput {
     roleMinistryId?: Nullable<number>;
 }
 
+export interface CreateMinistryInput {
+    ministryName: string;
+}
+
+export interface UpdateMinistryInput {
+    ministryName?: Nullable<string>;
+}
+
 export interface CreateSectorInput {
     sectorName: string;
     supervisorId?: Nullable<number>;
@@ -92,6 +100,8 @@ export interface IQuery {
     growthGroupById(id: number): Nullable<GrowthGroup> | Promise<Nullable<GrowthGroup>>;
     members(): Nullable<Member>[] | Promise<Nullable<Member>[]>;
     memberById(id: number): Nullable<Member> | Promise<Nullable<Member>>;
+    ministries(): Nullable<Ministry>[] | Promise<Nullable<Ministry>[]>;
+    ministryById(id: number): Nullable<Ministry> | Promise<Nullable<Ministry>>;
     sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
     sectorById(id: number): Nullable<Sector> | Promise<Nullable<Sector>>;
     users(): Nullable<User>[] | Promise<Nullable<User>[]>;
@@ -110,6 +120,10 @@ export interface IMutation {
     updateMember(id: number, input: UpdateMemberInput): Member | Promise<Member>;
     removeMember(id: number): Member | Promise<Member>;
     restoreMember(id: number): Member | Promise<Member>;
+    createMinistry(input: CreateMinistryInput): Ministry | Promise<Ministry>;
+    updateMinistry(id: number, input: UpdateMinistryInput): Ministry | Promise<Ministry>;
+    removeMinistry(id: number): Ministry | Promise<Ministry>;
+    restoreMinistry(id: number): Ministry | Promise<Ministry>;
     createSector(input: CreateSectorInput): Sector | Promise<Sector>;
     updateSector(id: number, input: UpdateSectorInput): Sector | Promise<Sector>;
     removeSector(id: number): Sector | Promise<Sector>;
@@ -158,6 +172,15 @@ export interface RoleMinistry {
     id: number;
     roleMinistryName: string;
     members?: Nullable<Nullable<Member>[]>;
+}
+
+export interface Ministry {
+    id: number;
+    ministryName: string;
+    members?: Nullable<Nullable<Member>[]>;
+    createdAt?: Nullable<Date>;
+    updatedAt?: Nullable<Date>;
+    deletedAt?: Nullable<Date>;
 }
 
 export interface Sector {
