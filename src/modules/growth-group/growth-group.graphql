@@ -1,0 +1,34 @@
+type GrowthGroup {
+  id: Int!
+  growthGroupName: String!
+  headquarters: String
+  sectorId: Int!
+  sector: Sector
+  createdAt: Date!
+  updatedAt: Date!
+  deletedAt: Date
+}
+
+input CreateGrowthGroupInput {
+  growthGroupName: String!
+  headquarters: String
+  sectorId: Int!
+}
+
+input UpdateGrowthGroupInput {
+  growthGroupName: String
+  headquarters: String
+  sectorId: Int
+}
+
+type Query {
+  growthGroups: [GrowthGroup]!
+  growthGroupById(id: Int!): GrowthGroup
+}
+
+type Mutation {
+  createGrowthGroup(input: CreateGrowthGroupInput!): GrowthGroup!
+  updateGrowthGroup(id: Int!, input: UpdateGrowthGroupInput!): GrowthGroup!
+  removeGrowthGroup(id: Int!): GrowthGroup!
+  restoreGrowthGroup(id: Int!): GrowthGroup!
+}

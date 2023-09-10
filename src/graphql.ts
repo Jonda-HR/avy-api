@@ -25,6 +25,18 @@ export interface SignInInput {
     password: string;
 }
 
+export interface CreateGrowthGroupInput {
+    growthGroupName: string;
+    headquarters?: Nullable<string>;
+    sectorId: number;
+}
+
+export interface UpdateGrowthGroupInput {
+    growthGroupName?: Nullable<string>;
+    headquarters?: Nullable<string>;
+    sectorId?: Nullable<number>;
+}
+
 export interface CreateMemberInput {
     firstName: string;
     lastName: string;
@@ -76,6 +88,8 @@ export interface AuthResponse {
 
 export interface IQuery {
     revalidate(): AuthResponse | Promise<AuthResponse>;
+    growthGroups(): Nullable<GrowthGroup>[] | Promise<Nullable<GrowthGroup>[]>;
+    growthGroupById(id: number): Nullable<GrowthGroup> | Promise<Nullable<GrowthGroup>>;
     members(): Nullable<Member>[] | Promise<Nullable<Member>[]>;
     memberById(id: number): Nullable<Member> | Promise<Nullable<Member>>;
     sectors(): Nullable<Sector>[] | Promise<Nullable<Sector>[]>;
@@ -88,6 +102,10 @@ export interface IQuery {
 export interface IMutation {
     signUp(input?: Nullable<SignUpInput>): AuthResponse | Promise<AuthResponse>;
     signIn(input?: Nullable<SignInInput>): AuthResponse | Promise<AuthResponse>;
+    createGrowthGroup(input: CreateGrowthGroupInput): GrowthGroup | Promise<GrowthGroup>;
+    updateGrowthGroup(id: number, input: UpdateGrowthGroupInput): GrowthGroup | Promise<GrowthGroup>;
+    removeGrowthGroup(id: number): GrowthGroup | Promise<GrowthGroup>;
+    restoreGrowthGroup(id: number): GrowthGroup | Promise<GrowthGroup>;
     createMember(input: CreateMemberInput): Member | Promise<Member>;
     updateMember(id: number, input: UpdateMemberInput): Member | Promise<Member>;
     removeMember(id: number): Member | Promise<Member>;
@@ -100,6 +118,17 @@ export interface IMutation {
     updateUser(id: string, input: UpdateUserInput): User | Promise<User>;
     removeUser(id: string): User | Promise<User>;
     restoreUser(id: string): User | Promise<User>;
+}
+
+export interface GrowthGroup {
+    id: number;
+    growthGroupName: string;
+    headquarters?: Nullable<string>;
+    sectorId: number;
+    sector?: Nullable<Sector>;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt?: Nullable<Date>;
 }
 
 export interface Member {

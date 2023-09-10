@@ -17,6 +17,7 @@ import { SectorModule } from './modules/sector/sector.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HandleErrorModule } from './utilities/handleError/handleError.module';
+import { GrowthGroupModule } from './modules/growth-group/growth-group.module';
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { HandleErrorModule } from './utilities/handleError/handleError.module';
     UserModule,
     AuthModule,
     HandleErrorModule,
+    GrowthGroupModule,
   ],
   controllers: [],
   providers: [],
