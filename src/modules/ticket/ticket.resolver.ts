@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TicketService } from './ticket.service';
 import { Ticket } from './entities/ticket.entity';
-import { CreateTicketInput, UpdateTicketInput } from 'src/graphql';
+import { CreateTicketsInput, UpdateTicketInput } from 'src/graphql';
 
 @Resolver('Ticket')
 export class TicketResolver {
@@ -19,8 +19,8 @@ export class TicketResolver {
 
   @Mutation('createTicket')
   public async createTicket(
-    @Args('input') input: CreateTicketInput,
-  ): Promise<Ticket> {
+    @Args('input') input: CreateTicketsInput,
+  ): Promise<Ticket[]> {
     return await this.ticketService.createTicket(input);
   }
 
@@ -40,5 +40,13 @@ export class TicketResolver {
   @Mutation('restoreTicket')
   public async restoreTicket(@Args('id') id: number): Promise<Ticket> {
     return await this.ticketService.restoreTicket(id);
+  }
+
+  @Mutation('paidDinner')
+  public async paidDinner(
+    @Args('code') code: string,
+    @Args('dinnerId') dinnerId: number,
+  ): Promise<Ticket> {
+    return await this.ticketService.paidDinner(code, dinnerId);
   }
 }

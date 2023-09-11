@@ -13,14 +13,15 @@ type Ticket {
   deletedAt: Date
 }
 
-input CreateTicketInput {
+input CreateTicketsInput {
   dinnerId: Int!
   growthGroupId: Int!
+  numberTickets: Int!
 }
 
 input UpdateTicketInput {
-  dinnerId: Int!
-  growthGroupId: Int!
+  isPaid: Boolean
+  growthGroupId: Int
 }
 
 type Query {
@@ -29,8 +30,9 @@ type Query {
 }
 
 type Mutation {
-  createTicket(input: CreateTicketInput!): Ticket!
+  createTicket(input: CreateTicketsInput!): [Ticket]!
   updateTicket(id: Int!, input: UpdateTicketInput!): Ticket!
+  paidDinner(code: String!, dinnerId: Int!): Ticket!
   removeTicket(id: Int!): Ticket!
   restoreTicket(id: Int!): Ticket!
 }

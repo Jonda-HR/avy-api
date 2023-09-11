@@ -87,14 +87,15 @@ export interface UpdateSectorInput {
     supervisorId?: Nullable<number>;
 }
 
-export interface CreateTicketInput {
+export interface CreateTicketsInput {
     dinnerId: number;
     growthGroupId: number;
+    numberTickets: number;
 }
 
 export interface UpdateTicketInput {
-    dinnerId: number;
-    growthGroupId: number;
+    isPaid?: Nullable<boolean>;
+    growthGroupId?: Nullable<number>;
 }
 
 export interface CreateUserInput {
@@ -156,8 +157,9 @@ export interface IMutation {
     updateSector(id: number, input: UpdateSectorInput): Sector | Promise<Sector>;
     removeSector(id: number): Sector | Promise<Sector>;
     restoreSector(id: number): Sector | Promise<Sector>;
-    createTicket(input: CreateTicketInput): Ticket | Promise<Ticket>;
+    createTicket(input: CreateTicketsInput): Nullable<Ticket>[] | Promise<Nullable<Ticket>[]>;
     updateTicket(id: number, input: UpdateTicketInput): Ticket | Promise<Ticket>;
+    paidDinner(code: string, dinnerId: number): Ticket | Promise<Ticket>;
     removeTicket(id: number): Ticket | Promise<Ticket>;
     restoreTicket(id: number): Ticket | Promise<Ticket>;
     createUser(input: CreateUserInput): User | Promise<User>;

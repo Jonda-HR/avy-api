@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ticket } from './entities/ticket.entity';
 import { Repository } from 'typeorm';
-import { CreateTicketInput, UpdateTicketInput } from 'src/graphql';
+import { CreateTicketsInput, UpdateTicketInput } from 'src/graphql';
 import { HandleErrorService } from 'src/utilities/handleError/handleError.service';
 
 @Injectable()
@@ -27,13 +27,25 @@ export class TicketService {
     }
   }
 
-  public async createTicket(input: CreateTicketInput): Promise<Ticket> {
+  public async createTicket(input: CreateTicketsInput): Promise<Ticket[]> {
+    const { numberTickets } = input;
+    const tickets: Ticket[] = [];
     try {
-      const newTicket = this.ticketRepository.create(input);
-      return await this.ticketRepository.save(newTicket);
+      await Promise.all(
+        Array.from({ length: numberTickets }).map(async () => {
+          const code = await this.generateCode(input.dinnerId);
+          const newTicket = this.ticketRepository.create({
+            ...input,
+            code,
+          });
+          const ticket = await this.ticketRepository.save(newTicket);
+          tickets.push(ticket);
+        }),
+      );
+      return tickets;
     } catch (error) {
       this.handleErrorService.handleError(
-        'An error occurred while creating a new ticket.',
+        'An error occurred while creating a news ticket.',
         error.stack,
         'TicketService/createTicket',
       );
@@ -48,6 +60,33 @@ export class TicketService {
         `An error occurred while obtaining the ticket with ID: ${id}`,
         error.stack,
         'TicketService/ticketById',
+      );
+    }
+  }
+
+  public async ticketByCode(code: string): Promise<Ticket> {
+    try {
+      return await this.ticketRepository.findOneBy({ code });
+    } catch (error) {
+      this.handleErrorService.handleError(
+        `An error occurred while obtaining the ticket with code: ${code}`,
+        error.stack,
+        'TicketService/ticketByCode',
+      );
+    }
+  }
+
+  public async ticketsByDinnerId(dinnerId: number): Promise<Ticket[]> {
+    try {
+      return await this.ticketRepository
+        .createQueryBuilder('ticket')
+        .where('ticket.dinnerId = :dinnerId', { dinnerId })
+        .getMany();
+    } catch (error) {
+      this.handleErrorService.handleError(
+        `An error occurred while getting the ticket with DinnerId: ${dinnerId}`,
+        error.stack,
+        'TicketService/ticketByDinnerId',
       );
     }
   }
@@ -93,6 +132,66 @@ export class TicketService {
         `An error occurred while restoring ticket with ID: ${id}`,
         error.stack,
         'TicketService/restoreTicket',
+      );
+    }
+  }
+
+  public async generateCode(dinnerId: number): Promise<string> {
+    //the characters that the code can take
+    const characters = '0123456789';
+    let code = '';
+    let codeExists = true;
+    try {
+      while (codeExists) {
+        code = '';
+        //here character by character is assigned randomly and then it is tested if the code already exists
+        for (let i = 0; i < 4; i++) {
+          const indice = Math.floor(Math.random() * characters.length);
+          code += characters[indice];
+        }
+        codeExists = await this.checkoutCodeExists(code, dinnerId);
+      }
+
+      return code;
+    } catch (error) {
+      this.handleErrorService.handleError(
+        `An error occurred while generating a new code.`,
+        error.stack,
+        `TicketService/generateCode`,
+      );
+    }
+  }
+
+  public async checkoutCodeExists(
+    code: string,
+    dinnerId: number,
+  ): Promise<boolean> {
+    try {
+      const tickets = await this.ticketsByDinnerId(dinnerId);
+      const codes = tickets.map((ticket) => ticket.code);
+      return codes.includes(code);
+    } catch (error) {
+      this.handleErrorService.handleError(
+        `An error occurred while checking the code: ${code}.`,
+        error.stack,
+        `TicketService/checkoutCodeExists`,
+      );
+    }
+  }
+
+  public async paidDinner(code: string, dinnerId: number): Promise<Ticket> {
+    try {
+      if (await this.checkoutCodeExists(code, dinnerId)) {
+        const ticket = await this.ticketByCode(code);
+        const { id } = ticket;
+        await this.updateTicket(id, { isPaid: true });
+        return await this.ticketById(id);
+      }
+    } catch (error) {
+      this.handleErrorService.handleError(
+        `An error occurred while paiding the ticket with code: ${code}.`,
+        error.stack,
+        `TicketService/paidDinner`,
       );
     }
   }
